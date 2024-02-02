@@ -49,6 +49,7 @@ copy the following lines of code into your package.json under scripts
 7. To enable the packaged electron exe file to be working 100%, add these lines to electron.js file:
 -follow this link: 
 - https://byby.dev/node-dirname-not-defined#:~:text=The%20error%20message%20“__dirname,dirname%20variable%20available%20by%20default.
+- https://stackoverflow.com/questions/66200402/getting-blank-screen-in-windows-after-electron-builder-react-electron-app
 
 // Import required modules
 import path from 'path';
