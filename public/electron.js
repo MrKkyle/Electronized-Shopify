@@ -1,6 +1,11 @@
 // Import required modules
 import path from 'path';
-import { app, BrowserWindow } from 'electron';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+import { app, BrowserWindow} from 'electron';
 import isDev from 'electron-is-dev';
 
 // Initialize mainWindow variable
@@ -17,7 +22,6 @@ const createWindow = () => {
       enableRemoteModule: true, // Enable remote module
       contextIsolation: false, // Disable context isolation
       autoHideMenuBar: true, // Auto-hide menu bar
-      devTools: false // Hides the dev tools upon start
     },
   });
 
@@ -25,15 +29,11 @@ const createWindow = () => {
   mainWindow.setMenuBarVisibility(false);
 
   // Load the appropriate URL based on the environment
-  mainWindow.loadURL(
-    isDev
-      ? 'http://localhost:3000' // Development URL
-      : `file://${path.join(__dirname, '../build/index.html')}` // Production URL
-  );
+  mainWindow.loadURL(isDev ? `file://${__dirname}/../build/index.html` : `file://${__dirname}/../build/index.html`);
 
   // Open DevTools in development mode
   if (isDev) {
-    mainWindow.webContents.openDevTools({ mode: 'detach' });
+    //mainWindow.webContents.openDevTools({ mode: 'detach' });
   }
 };
 
