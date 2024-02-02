@@ -17,6 +17,7 @@ const createWindow = () => {
       enableRemoteModule: true, // Enable remote module
       contextIsolation: false, // Disable context isolation
       autoHideMenuBar: true, // Auto-hide menu bar
+      devTools: false // Hides the dev tools upon start
     },
   });
 
