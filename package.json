@@ -18,11 +18,13 @@
   "scripts": {
     "both": "concurrently \"npm start\" \"npm run start-electron\"",
     "start-electron": "wait-on http://127.0.0.1:3000  && electron .",
-    "start": "set BROWSER=none && react-scripts start",
+    "start": "BROWSER=none && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "package": "electron-builder build --mac --win -c.extraMetadata.main=build/electron.js --publish never",
+    "package-mac": "npm run build  && electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds", 
+    "package-win": "npm run build  && electron-packager . MyApp --overwrite --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds", 
+    "package-linux": "npm run build  && electron-packager . MyApp --overwrite --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds", 
     "publish": "electron-builder build --mac --win --publish always"
   },
   "eslintConfig": {
@@ -47,7 +49,8 @@
     "concurrently": "^8.2.2",
     "electron": "^28.2.1",
     "electron-builder": "^24.9.1",
-    "electron-is-dev": "^3.0.1"
+    "electron-is-dev": "^3.0.1",
+    "electron-packager": "^17.1.2"
   },
   "build": {
     "mac": {

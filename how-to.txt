@@ -1,1 +1,50 @@
-Major help in integrating react and electron:- https://medium.com/@urab535/a-step-by-step-guide-how-to-create-a-desktop-application-using-react-js-and-electron-js-40d057fe8dff- https://bobbyhadz.com/blog/javascript-error-err-require-esm-require-of-es-module-not-supported- https://github.com/electron/electron/issues/214571. ensure node and npm are installed 2. follow the rest of the instructions given in the first link3. add {"type": "module"} to the package.json4. change all the imports to: -- In electron.jsimport path from 'path';import { app, BrowserWindow } from 'electron';import isDev from 'electron-is-dev'; -- In index.jsimport App from './App.js';import reportWebVitals from './reportWebVitals.js';from what was previously there.5. to run both scripts after the other, look at the following links:- https://www.reddit.com/r/electronjs/comments/wmi2st/pulling_my_hair_out_since_waiton_isnt_working/- https://stackoverflow.com/questions/63192833/sequential-npm-script-after-react-scripts-startchange the following code in the package.json: first run: npm install I -D concurrently change the scripts to be :    "both": "concurrently \"npm start\" \"npm run start-electron\"",    "start-electron": "wait-on http://127.0.0.1:3000  && electron .",    "start": "set BROWSER=none && react-scripts start",
+Major help in integrating react and electron:
+- https://medium.com/@urab535/a-step-by-step-guide-how-to-create-a-desktop-application-using-react-js-and-electron-js-40d057fe8dff
+- https://bobbyhadz.com/blog/javascript-error-err-require-esm-require-of-es-module-not-supported
+- https://github.com/electron/electron/issues/21457
+
+1. ensure node and npm are installed 
+2. follow the rest of the instructions given in the first link
+3. add {"type": "module"} to the package.json
+4. change all the imports to:
+
+ -- In electron.js
+import path from 'path';
+import { app, BrowserWindow } from 'electron';
+import isDev from 'electron-is-dev';
+
+ -- In index.js
+
+import App from './App.js';
+import reportWebVitals from './reportWebVitals.js';
+
+from what was previously there.
+
+5. to run both scripts after the other, look at the following links:
+- https://www.reddit.com/r/electronjs/comments/wmi2st/pulling_my_hair_out_since_waiton_isnt_working/
+- https://stackoverflow.com/questions/63192833/sequential-npm-script-after-react-scripts-start
+
+change the following code in the package.json: 
+
+first run: npm install I -D concurrently 
+
+change the scripts to be :
+
+    "both": "concurrently \"npm start\" \"npm run start-electron\"",
+    "start-electron": "wait-on http://127.0.0.1:3000  && electron .",
+    "start": "set BROWSER=none && react-scripts start",
+
+6. To package/build the project follow this guide:
+
+- https://medium.com/@urab535/a-step-by-step-guide-how-to-create-a-desktop-application-using-react-js-and-electron-js-40d057fe8dff
+
+npm install electron-packager --save-dev
+
+copy the following lines of code into your package.json under scripts
+    "package-mac": "npm run build  && electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds", 
+    "package-win": "npm run build  && electron-packager . MyApp --overwrite --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds", 
+    "package-linux": "npm run build  && electron-packager . MyApp --overwrite --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds", 
+
+-- done --
+
+
