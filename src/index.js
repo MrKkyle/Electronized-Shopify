@@ -1,14 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import NavigationBar from './components/Navigation-bar.js';
+import AutoSlideshow from './components/Auto-slideshow.js';
 
-
-import './index.css';
+import './CSS/index.css';
 
 export default function Main()  
 {
     return (    
         <div>   
-            
+            <NavigationBar />
+            <AutoSlideshow />
         </div>
     );
 }

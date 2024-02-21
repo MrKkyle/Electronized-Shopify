@@ -1,0 +1,20 @@
+body 
+{
+    margin: 0;
+    overflow: auto;
+}
+.background
+{
+	height: 100%;
+	width: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color: #cccccc;
+    background-image: url(../media/Slide/1.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+	position: fixed;
+	margin: 0; 
+}
