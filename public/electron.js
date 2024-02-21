@@ -15,8 +15,8 @@ let mainWindow;
 const createWindow = () => {
   // Configure the main window
   mainWindow = new BrowserWindow({
-    width: 848,
-    height: 480,
+    width: 1200,
+    height: 675,
     webPreferences: {
       nodeIntegration: true, // Enable Node.js integration
       enableRemoteModule: true, // Enable remote module
