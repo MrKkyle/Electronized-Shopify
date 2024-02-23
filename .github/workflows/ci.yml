@@ -1,0 +1,81 @@
+name: ci
+
+on:
+    pull_request:
+        branches: [main]
+
+jobs:
+    integration-tests:
+        name: integration tests
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Set up Go
+              uses: actions/setup-go@v4
+              with:
+                  go-version: "1.20"
+
+            - name: Check out code
+              uses: actions/checkout@v4
+
+            - name: Run install script
+              run: |
+                  chmod +x ./scripts/install.github.sh
+                  ./scripts/install.github.sh
+              shell: bash
+
+            - name: 🔎 Run unit tests
+              run: go test ./... -cover
+
+            - name: Install go security
+              run: go install github.com/securego/gosec/v2/cmd/gosec@latest
+
+            - name: 🔎 Security check
+              run: gosec -exclude-generated ./...
+
+    build:
+        name: build docker image
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Login to Docker Hub
+              uses: docker/login-action@v3
+              with:
+                  username: ${{ secrets.DOCKER_USERNAME }}
+                  password: ${{ secrets.DOCKER_TOKEN }}
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
+
+            - name: Build and push
+              uses: docker/build-push-action@v5
+              with:
+                  context: .
+                  file: ./setup/server/Dockerfile
+                  push: true
+                  tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+
+    style:
+        name: style
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Set up Go
+              uses: actions/setup-go@v4
+              with:
+                  go-version: "1.20"
+
+            - name: Check out code
+              uses: actions/checkout@v3
+
+            - name: 🔎Check code formatting
+              run: test -z $(go fmt ./...)
+
+            - name: Install static check
+              run: go install honnef.co/go/tools/cmd/staticcheck@latest
+
+            - name: 🔎Static check
+              run: staticcheck ./...
